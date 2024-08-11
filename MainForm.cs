@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using SuperAltShift.Utilities;
 
 namespace SuperAltShift
 {
@@ -7,6 +8,8 @@ namespace SuperAltShift
         public MainForm()
         {
             InitializeComponent();
+            bool isInStartup = Startup.IsInStartup();
+            autostartToolStripMenuItem.Checked = isInStartup;
         }
 
 
@@ -43,12 +46,35 @@ namespace SuperAltShift
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Exit.AddExited();
             Application.Exit();
         }
 
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Show();
+        }
+
+        private void autostartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (autostartToolStripMenuItem.Checked)
+            {
+                Startup.RemoveFromStartup();
+            }
+            else
+            {
+                Startup.RunOnStartup();
+            }
+            autostartToolStripMenuItem.Checked ^= true;
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (!Exit.IsExited())
+            {
+                Hide();
+            }
+            Exit.RemoveExited();
         }
     }
 }

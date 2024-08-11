@@ -40,6 +40,7 @@
             exitToolStripMenuItem = new ToolStripMenuItem();
             Sorce_Code_Button = new Button();
             Key_Label = new Label();
+            AutostartTipLabel = new Label();
             TrayContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -115,6 +116,7 @@
             autostartToolStripMenuItem.Name = "autostartToolStripMenuItem";
             autostartToolStripMenuItem.Size = new Size(123, 22);
             autostartToolStripMenuItem.Text = "Autostart";
+            autostartToolStripMenuItem.Click += autostartToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
@@ -125,6 +127,7 @@
             // 
             // Sorce_Code_Button
             // 
+            Sorce_Code_Button.FlatAppearance.BorderColor = Color.FromArgb(45, 45, 45);
             Sorce_Code_Button.FlatAppearance.BorderSize = 0;
             Sorce_Code_Button.FlatStyle = FlatStyle.Flat;
             Sorce_Code_Button.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -150,12 +153,24 @@
             Key_Label.Text = "CTRL + ALT + SHIFT";
             Key_Label.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // AutostartTipLabel
+            // 
+            AutostartTipLabel.AutoSize = true;
+            AutostartTipLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            AutostartTipLabel.Location = new Point(172, 300);
+            AutostartTipLabel.Name = "AutostartTipLabel";
+            AutostartTipLabel.Size = new Size(186, 13);
+            AutostartTipLabel.TabIndex = 6;
+            AutostartTipLabel.Text = "Tip: Enable autostart in system tray";
+            AutostartTipLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(45, 45, 45);
             ClientSize = new Size(530, 320);
+            Controls.Add(AutostartTipLabel);
             Controls.Add(Sorce_Code_Button);
             Controls.Add(Key_Label);
             Controls.Add(Description_Label);
@@ -167,6 +182,7 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SuperAltShift";
+            Shown += MainForm_Shown;
             TrayContextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -186,5 +202,6 @@
         private ToolStripMenuItem exitToolStripMenuItem;
         private Button Sorce_Code_Button;
         private Label Key_Label;
+        private Label AutostartTipLabel;
     }
 }

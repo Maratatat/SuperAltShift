@@ -29,17 +29,18 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             Title = new Label();
             Close_button = new Button();
             Description_Label = new Label();
-            notifyIcon1 = new NotifyIcon(components);
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            exitToolStripMenuItem = new ToolStripMenuItem();
+            TrayIcon = new NotifyIcon(components);
+            TrayContextMenuStrip = new ContextMenuStrip(components);
+            openToolStripMenuItem = new ToolStripMenuItem();
             autostartToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem1 = new ToolStripMenuItem();
+            exitToolStripMenuItem = new ToolStripMenuItem();
             Sorce_Code_Button = new Button();
             Key_Label = new Label();
-            contextMenuStrip1.SuspendLayout();
+            TrayContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // Title
@@ -86,22 +87,26 @@
             Description_Label.Text = "Just select the text and replace it with the language you need \r\nby pressing";
             Description_Label.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // notifyIcon1
+            // TrayIcon
             // 
-            notifyIcon1.Text = "notifyIcon1";
-            notifyIcon1.Visible = true;
+            TrayIcon.ContextMenuStrip = TrayContextMenuStrip;
+            TrayIcon.Icon = (Icon)resources.GetObject("TrayIcon.Icon");
+            TrayIcon.Text = "Super Alt Shift";
+            TrayIcon.Visible = true;
+            TrayIcon.MouseDoubleClick += TrayIcon_MouseDoubleClick;
             // 
-            // contextMenuStrip1
+            // TrayContextMenuStrip
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { exitToolStripMenuItem, autostartToolStripMenuItem, exitToolStripMenuItem1 });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(124, 70);
+            TrayContextMenuStrip.Items.AddRange(new ToolStripItem[] { openToolStripMenuItem, autostartToolStripMenuItem, exitToolStripMenuItem });
+            TrayContextMenuStrip.Name = "contextMenuStrip1";
+            TrayContextMenuStrip.Size = new Size(124, 70);
             // 
-            // exitToolStripMenuItem
+            // openToolStripMenuItem
             // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(123, 22);
-            exitToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(123, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // autostartToolStripMenuItem
             // 
@@ -111,11 +116,12 @@
             autostartToolStripMenuItem.Size = new Size(123, 22);
             autostartToolStripMenuItem.Text = "Autostart";
             // 
-            // exitToolStripMenuItem1
+            // exitToolStripMenuItem
             // 
-            exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            exitToolStripMenuItem1.Size = new Size(123, 22);
-            exitToolStripMenuItem1.Text = "Exit";
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(123, 22);
+            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // Sorce_Code_Button
             // 
@@ -157,10 +163,11 @@
             Controls.Add(Title);
             ForeColor = Color.White;
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SuperAltShift";
-            contextMenuStrip1.ResumeLayout(false);
+            TrayContextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -172,11 +179,11 @@
         private Label Description_Label;
         private Label label2;
         private Panel panel1;
-        private NotifyIcon notifyIcon1;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem exitToolStripMenuItem;
+        private NotifyIcon TrayIcon;
+        private ContextMenuStrip TrayContextMenuStrip;
+        private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem autostartToolStripMenuItem;
-        private ToolStripMenuItem exitToolStripMenuItem1;
+        private ToolStripMenuItem exitToolStripMenuItem;
         private Button Sorce_Code_Button;
         private Label Key_Label;
     }

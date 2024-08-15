@@ -5,6 +5,7 @@ namespace SuperAltShift.Utilities
 {
     public class Exit
     {
+        private const string ExitedStatusRegistryName = "ExitedStatus";
         public static bool AddExited()
         {
             return AddExited(Application.ProductName);
@@ -22,7 +23,7 @@ namespace SuperAltShift.Utilities
                 {
                     rk = Registry.CurrentUser.CreateSubKey(@"Software\" + AppTitle);
                 }
-                rk.SetValue(AppTitle, "Exited");
+                rk.SetValue(ExitedStatusRegistryName, "True");
             }
             catch (Exception)
             {
@@ -48,7 +49,7 @@ namespace SuperAltShift.Utilities
                 {
                     return false;
                 }
-                rk.DeleteValue(AppTitle);
+                rk.DeleteValue(ExitedStatusRegistryName);
                 
             }
             catch (Exception)
@@ -76,8 +77,8 @@ namespace SuperAltShift.Utilities
                 {
                     return false;
                 }
-                string? value = rk.GetValue(AppTitle)?.ToString();
-                if (value == "Exited")
+                string? value = rk.GetValue(ExitedStatusRegistryName)?.ToString();
+                if (value == "True")
                 {
                     return true;
                 }

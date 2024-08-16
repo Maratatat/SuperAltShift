@@ -1,15 +1,37 @@
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.Devices;
 using SuperAltShift.Utilities;
+using System.Runtime.InteropServices;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace SuperAltShift
 {
     public partial class MainForm : Form
     {
+        private bool _isExecuting = false;
+
+        private const int HOTKEY_ID = 1;
+
+        private const int MOD_ALT = 0x0001;
+
+        private const int MOD_CONTROL = 0x0002;
+
+        private const int MOD_SHIFT = 0x0004;
+
+        [DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
+        [DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
         public MainForm()
         {
             InitializeComponent();
             bool isInStartup = Startup.IsInStartup();
             autostartToolStripMenuItem.Checked = isInStartup;
+
+            RegisterHotKey(Handle, HOTKEY_ID, MOD_CONTROL | MOD_ALT | MOD_SHIFT, 0);
+            FormClosing += (s, e) => UnregisterHotKey(Handle, HOTKEY_ID);
         }
 
 
@@ -76,5 +98,54 @@ namespace SuperAltShift
             }
             Exit.RemoveExited();
         }
+
+        private async Task ReplaceTextAsync()
+        {
+            if (_isExecuting) return;
+            _isExecuting = true;
+            IDataObject tmpClipboard = Clipboard.GetDataObject();
+
+            Clipboard.Clear();
+
+            await Keyboard.DelayAsync(35);
+
+            //SendKeys.SendWait("^c");
+            Keyboard.KeyUp(KEYCODE.VK_CONTROL);
+            Keyboard.KeyUp(KEYCODE.VK_SHIFT);
+            Keyboard.KeyUp(KEYCODE.VK_MENU);
+            Keyboard.KeyDown(KEYCODE.VK_CONTROL);
+            Keyboard.KeyDown(KEYCODE.VK_C);
+            Keyboard.KeyUp(KEYCODE.VK_CONTROL);
+            Keyboard.KeyUp(KEYCODE.VK_C);
+
+
+            await Keyboard.DelayAsync(35);
+
+            if (Clipboard.ContainsText())
+            {
+                string text = Clipboard.GetText();
+                Clipboard.Clear();
+                string correctedText = TextCorrecter.CorrectText(text);
+                Clipboard.SetDataObject(correctedText, true);
+                await Keyboard.DelayAsync(35);
+                Keyboard.KeyUp(KEYCODE.VK_CONTROL);
+                Keyboard.KeyUp(KEYCODE.VK_SHIFT);
+                Keyboard.KeyUp(KEYCODE.VK_MENU);
+                Keyboard.Type("^v");
+            }
+            Clipboard.SetDataObject(tmpClipboard);
+            _isExecuting = false;
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x0312 && m.WParam.ToInt32() == HOTKEY_ID)
+            {
+                ReplaceTextAsync();
+            }
+            base.WndProc(ref m);//hello
+        }
+
+
     }
 }

@@ -41,6 +41,7 @@
             Sorce_Code_Button = new Button();
             Key_Label = new Label();
             AutostartTipLabel = new Label();
+            label1 = new Label();
             TrayContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -164,12 +165,23 @@
             AutostartTipLabel.Text = "Tip: Enable autostart in system tray";
             AutostartTipLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(198, 60);
+            label1.Name = "label1";
+            label1.RightToLeft = RightToLeft.No;
+            label1.Size = new Size(134, 15);
+            label1.TabIndex = 7;
+            label1.Text = "English and russian only";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(45, 45, 45);
             ClientSize = new Size(530, 320);
+            Controls.Add(label1);
             Controls.Add(AutostartTipLabel);
             Controls.Add(Sorce_Code_Button);
             Controls.Add(Key_Label);
@@ -203,5 +215,6 @@
         private Button Sorce_Code_Button;
         private Label Key_Label;
         private Label AutostartTipLabel;
+        private Label label1;
     }
 }

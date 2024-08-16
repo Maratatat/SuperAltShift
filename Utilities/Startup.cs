@@ -35,6 +35,7 @@ namespace SuperAltShift.Utilities
             {
                 return false;
             }
+
             return true;
         }
 
@@ -83,6 +84,7 @@ namespace SuperAltShift.Utilities
             {
                 return false;
             }
+
             return true;
         }
 

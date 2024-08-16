@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
-namespace SuperAltShift
+namespace SuperAltShift.Utilities
 {
     public static class Keyboard
     {
-
         [DllImport("user32.dll", SetLastError = true)]
         static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
 
@@ -32,12 +26,12 @@ namespace SuperAltShift
         {
             keybd_event((byte)keycode, 0x0, 0, 0);
             System.Threading.Thread.Sleep(delay);
-            keybd_event((byte)keycode, 0x0, 2, 0); 
+            keybd_event((byte)keycode, 0x0, 2, 0);
         }
 
         public static void KeyUp(KEYCODE keycode)
         {
-            keybd_event((byte)keycode, 0, 2, 0); 
+            keybd_event((byte)keycode, 0, 2, 0);
         }
 
         public static void Type(string message)

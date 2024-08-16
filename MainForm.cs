@@ -1,15 +1,13 @@
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.Devices;
-using SuperAltShift.Utilities;
 using System.Runtime.InteropServices;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+using Microsoft.VisualBasic;
+using SuperAltShift.Utilities;
+using Keyboard = SuperAltShift.Utilities.Keyboard;
+
 
 namespace SuperAltShift
 {
     public partial class MainForm : Form
     {
-        private bool _isExecuting = false;
-
         private const int HOTKEY_ID = 1;
 
         private const int MOD_ALT = 0x0001;
@@ -17,12 +15,7 @@ namespace SuperAltShift
         private const int MOD_CONTROL = 0x0002;
 
         private const int MOD_SHIFT = 0x0004;
-
-        [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
-
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        private bool _isExecuting = false;
 
         public MainForm()
         {
@@ -34,6 +27,11 @@ namespace SuperAltShift
             FormClosing += (s, e) => UnregisterHotKey(Handle, HOTKEY_ID);
         }
 
+        [DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
+        [DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
 
         private void Close_button_Click(object sender, EventArgs e)
@@ -87,6 +85,7 @@ namespace SuperAltShift
             {
                 Startup.RunOnStartup();
             }
+
             autostartToolStripMenuItem.Checked ^= true;
         }
 
@@ -96,6 +95,7 @@ namespace SuperAltShift
             {
                 Hide();
             }
+
             Exit.RemoveExited();
         }
 
@@ -103,7 +103,7 @@ namespace SuperAltShift
         {
             if (_isExecuting) return;
             _isExecuting = true;
-            IDataObject tmpClipboard = Clipboard.GetDataObject();
+            var tmpClipboard = Clipboard.GetDataObject();
 
             Clipboard.Clear();
 
@@ -123,9 +123,9 @@ namespace SuperAltShift
 
             if (Clipboard.ContainsText())
             {
-                string text = Clipboard.GetText();
+                var text = Clipboard.GetText();
                 Clipboard.Clear();
-                string correctedText = TextCorrecter.CorrectText(text);
+                var correctedText = TextCorrecter.CorrectText(text);
                 Clipboard.SetDataObject(correctedText, true);
                 await Keyboard.DelayAsync(35);
                 Keyboard.KeyUp(KEYCODE.VK_CONTROL);
@@ -133,6 +133,7 @@ namespace SuperAltShift
                 Keyboard.KeyUp(KEYCODE.VK_MENU);
                 Keyboard.Type("^v");
             }
+
             Clipboard.SetDataObject(tmpClipboard);
             _isExecuting = false;
         }
@@ -143,9 +144,8 @@ namespace SuperAltShift
             {
                 ReplaceTextAsync();
             }
-            base.WndProc(ref m);//hello
+
+            base.WndProc(ref m);
         }
-
-
     }
 }

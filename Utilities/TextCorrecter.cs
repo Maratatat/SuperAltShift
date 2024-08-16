@@ -1,30 +1,29 @@
-﻿namespace SuperAltShift
+﻿namespace SuperAltShift.Utilities
 {
     static class TextCorrecter
     {
-
         public static string CorrectText(string text)
         {
-            string notShifttextEN = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
-            string shiftTextEN = "{~}!@#${^}&*{(}{)}_{+}QWERTYUIOP{{}{}}|ASDFGHJKL:\"ZXCVBNM<>?";
-            char[] textEN =(notShifttextEN + shiftTextEN).ToCharArray();
-            string notShiftTextRU = "ё1234567890-=йцукенгшщзхъ\\фывапролджэячсмитьбю.";
-            string shiftTextRU = "Ё!\"№;%:?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,";
-            char[] textRU = (notShiftTextRU + shiftTextRU).ToCharArray();
-            string newText = "";
-            for (int i = 0; i < text.Length; i++)
+            const string notShiftTextEn = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
+            const string shiftTextEn = "{~}!@#${^}&*{(}{)}_{+}QWERTYUIOP{{}{}}|ASDFGHJKL:\"ZXCVBNM<>?";
+            var textEn = (notShiftTextEn + shiftTextEn).ToCharArray();
+            const string notShiftTextRu = "ё1234567890-=йцукенгшщзхъ\\фывапролджэячсмитьбю.";
+            const string shiftTextRu = "Ё!\"№;%:?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,";
+            var textRu = (notShiftTextRu + shiftTextRu).ToCharArray();
+            var newText = "";
+            foreach (var t in text)
             {
-                if (textEN.Contains(text[i]))
+                if (textEn.Contains(t))
                 {
-                    newText+= textRU[Array.IndexOf(textEN, text[i])];
+                    newText += textRu[Array.IndexOf(textEn, t)];
                 }
-                else if (textRU.Contains(text[i]))
+                else if (textRu.Contains(t))
                 {
-                    newText += textEN[Array.IndexOf(textRU, text[i])];
+                    newText += textEn[Array.IndexOf(textRu, t)];
                 }
                 else
                 {
-                    newText += text[i];
+                    newText += t;
                 }
             }
 
